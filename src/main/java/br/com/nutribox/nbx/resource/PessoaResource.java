@@ -18,7 +18,7 @@ import br.com.nutribox.nbx.services.PessoaService;
  *
  */
 @Controller
-@RequestMapping(value = "pessoas")
+@RequestMapping(value = "/pessoas")
 public class PessoaResource {
 	
 	@Autowired
@@ -30,4 +30,5 @@ public class PessoaResource {
 		return ResponseEntity.ok().body(obj);
 	} 
 	
+
 }

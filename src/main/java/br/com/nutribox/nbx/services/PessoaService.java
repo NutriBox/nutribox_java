@@ -15,9 +15,13 @@ public class PessoaService {
 	@Autowired
 	private PessoaRepository repo;
 	
+	
 	public Pessoa obterId(Integer id) {
 		Optional<Pessoa> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado Id: " + id + " tipo: " + Pessoa.class.getName()));
 	}
+	
+	
+
 }
