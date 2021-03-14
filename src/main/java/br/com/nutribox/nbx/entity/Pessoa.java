@@ -5,15 +5,25 @@ package br.com.nutribox.nbx.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import br.com.nutribox.nbx.entity.enums.Perfil;
 
 /**
  * @author edy
@@ -29,28 +39,38 @@ public class Pessoa implements Serializable{
 	private String nome;
 	private String cpf;
 	private Instant dataNascimento;
+		
 	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_tipo_pessoa")
 	private TipoPessoa tipoPessoa;
+
 	
 	public TipoPessoa getTipoPessoa() {
 		return tipoPessoa;
 	}
+				
+
+	public Pessoa() {
+		
+	}
 	
 
-				
-	public Pessoa() {
-		super();
-	}
-
-
-	public Pessoa(Integer idPessoa, String nome, String cpf, Instant dataNascimento, TipoPessoa tipoPessoa) {
+	public Pessoa(
+			
+			Integer idPessoa, 
+			String nome, 
+			String cpf, 
+			Instant dataNascimento, 
+			TipoPessoa tipoPessoa			
+			) {
 		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.tipoPessoa = tipoPessoa;
+		
+		
 	}
 
 	public Integer getIdPessoa() {
@@ -84,7 +104,6 @@ public class Pessoa implements Serializable{
 		this.dataNascimento = dataNascimento;
 	}
 	
-		
 
 	@Override
 	public int hashCode() {
@@ -93,6 +112,7 @@ public class Pessoa implements Serializable{
 		result = prime * result + ((idPessoa == null) ? 0 : idPessoa.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -110,6 +130,10 @@ public class Pessoa implements Serializable{
 			return false;
 		return true;
 	}
+
+	
+
+	
 
 
 	

@@ -7,5 +7,5 @@ import br.com.nutribox.nbx.entity.Pessoa;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Integer> {
-
+	
 }

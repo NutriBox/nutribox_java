@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.nutribox.config;
+package br.com.nutribox.nbx.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
