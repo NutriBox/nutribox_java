@@ -1,0 +1,33 @@
+{
+	"folders": {},
+	"connections": {
+		"mysql8-178360dd900-19ac7d67edf88963": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "NutriBox",
+			"save-password": true,
+			"show-system-objects": true,
+			"read-only": false,
+			"configuration": {
+				"host": "186.202.152.239",
+				"port": "3306",
+				"database": "nutrilleconsul",
+				"url": "jdbc:mysql://186.202.152.239:3306/nutrilleconsul",
+				"home": "mysql_client",
+				"type": "dev",
+				"auth-model": "native",
+				"handlers": {}
+			}
+		}
+	},
+	"connection-types": {
+		"dev": {
+			"name": "Development",
+			"color": "255,255,255",
+			"description": "Regular development database",
+			"auto-commit": true,
+			"confirm-execute": false,
+			"confirm-data-change": false
+		}
+	}
+}

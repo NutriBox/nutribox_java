@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.nutribox.nbx.entity.Endereco;
@@ -43,6 +44,9 @@ public class DBService implements CommandLineRunner{
 	private RoleRepository roleRepository ;
 	
 	@Autowired
+	PasswordEncoder encoder;
+	
+	@Autowired
 	private PessoaRepository pessoaRepository;
 
 	@Autowired
@@ -62,18 +66,38 @@ public class DBService implements CommandLineRunner{
 	
 	public void instantiateTestDatabase() {
 		
-		TipoPessoa tp1 = new TipoPessoa(null, "Nutricionista");
-		TipoPessoa tp2 = new TipoPessoa(null, "Paciente");
+		/* Inicia os usuários */
 		
-		Role r = new Role(1, ERole.ROLE_ADMIN);
-		roleRepository.save(r);
+				Role r1 = new Role(1, ERole.ROLE_USER);
+				Role r2 = new Role(2, ERole.ROLE_MODERATOR);
+		        Role r3 = new Role(3, ERole.ROLE_ADMIN);
+				roleRepository.saveAll(Arrays.asList(r1,r2,r3));
+				
+			 	User u1 = new User("edymlima", "edymlima@gmail.com", encoder.encode("sempre12"));
+			 	User u2 = new User("edsonlima", "edsonlima@gmail.com.br", encoder.encode("sempre12"));
+			 	User u3 = new User("chicolima", "chicolima@gmail.com.br", encoder.encode("sempre12"));
+			 	User u4 = new User("arianelima", "arianelima@gmail.com.br", encoder.encode("sempre12"));
+			 	
+			 	userRepository.saveAll(Arrays.asList(u1, u2, u3, u4));	
+			 	
+			 	u1.getRoles().add(r3);
+			 	u2.getRoles().add(r2);	
+			 	u3.getRoles().add(r3);	
+			 	u4.getRoles().add(r3);	
+			 	
+			 	userRepository.saveAll(Arrays.asList(u1,u2, u3, u4));
+	 	
+	 	/* Fim dos usuários */
 		
-		User u = new User("edymlima", "edymlima@gmail.com.br", "12345678");
-		userRepository.saveAll(Arrays.asList(u));	
-		
-		
-		Pessoa p1 = new Pessoa(null,"Edy", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1);		
-		Pessoa p2 = new Pessoa(null,"Edson", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2);
+		TipoPessoa tp1 = new TipoPessoa(null, "Admin");
+		TipoPessoa tp2 = new TipoPessoa(null, "Nutricionista");
+		TipoPessoa tp3 = new TipoPessoa(null, "Cliente");
+		TipoPessoa tp4 = new TipoPessoa(null, "Estudante");
+	 	
+		Pessoa p1 = new Pessoa(null,"Edilberto", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1,u1);		
+		Pessoa p2 = new Pessoa(null,"Edson",     "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u2);
+		Pessoa p3 = new Pessoa(null,"Francisco", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp3,u3);
+		Pessoa p4 = new Pessoa(null,"Ariante",   "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp4,u4);
 
 		
 	    Especialidade es1 = new Especialidade(null,"Nutrição clínica");
@@ -86,10 +110,15 @@ public class DBService implements CommandLineRunner{
 		Especialidade es8 = new Especialidade(null,"Consultoria nutricional.");
 		
 		Nutricionista n1 = new Nutricionista(null,123, p1);
-		Nutricionista n2 = new Nutricionista(null,123,p2);
+		Nutricionista n2 = new Nutricionista(null,123, p2);
+		Nutricionista n3 = new Nutricionista(null,123, p3);
+		Nutricionista n4 = new Nutricionista(null,123 ,p4);
 		
 		n1.getEspecialidade().addAll(Arrays.asList(es1,es2,es3,es4,es5,es6,es7,es8));
 		n2.getEspecialidade().addAll(Arrays.asList(es2));
+		n3.getEspecialidade().addAll(Arrays.asList(es2));
+		n4.getEspecialidade().addAll(Arrays.asList(es2));
+		
 		
 		Telefone fone1 = new Telefone(null, "061", "995899884",p1);
 		Telefone fone2 = new Telefone(null, "061", "992641492",p2);
@@ -110,13 +139,13 @@ public class DBService implements CommandLineRunner{
 						p1
 						) ;
 		
-		tipoPessoaRepository.saveAll(Arrays.asList(tp1,tp2));		
+		tipoPessoaRepository.saveAll(Arrays.asList(tp1,tp2, tp3, tp4));		
 		
-		pessoaRepository.saveAll(Arrays.asList(p1, p2));
+		pessoaRepository.saveAll(Arrays.asList(p1, p2, p3 ,p4));
 		
 		especialidadeRespository.saveAll(Arrays.asList(es1,es2,es3,es4,es5,es6,es7,es8));
 
-		nutricionistaRepository.saveAll(Arrays.asList(n1,n2));
+		nutricionistaRepository.saveAll(Arrays.asList(n1,n2, n3, n4));
 		
 		telefoneRepository.saveAll(Arrays.asList(fone1, fone2));
 		

@@ -13,19 +13,26 @@ import br.com.nutribox.nbx.services.DBService;
 
 
 @Configuration
-@Profile("dev")
+@Profile("prod")
 public class ProdConfig {
 
 	@Autowired
 	private DBService dbService;
 	
+	@Value("${spring.jpa.hibernate.ddl-auto}")
+	private String strategy;
+	
 	@Bean
-	public boolean instantiateDatabase() {
+	public boolean instantiateDatabase() throws ParseException {
+		
+		if (!"create".equals(strategy)) {
+			return false;
+		}
+		
 		dbService.instantiateTestDatabase();
 		return true;
-		
 	}
-
+	
 	
 	
 }

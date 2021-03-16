@@ -5,25 +5,16 @@ package br.com.nutribox.nbx.entity;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import br.com.nutribox.nbx.entity.enums.Perfil;
 
 /**
  * @author edy
@@ -45,11 +36,10 @@ public class Pessoa implements Serializable{
 	@JoinColumn(name = "id_tipo_pessoa")
 	private TipoPessoa tipoPessoa;
 
-	
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
-	}
-				
+	@JsonManagedReference
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	public Pessoa() {
 		
@@ -62,17 +52,27 @@ public class Pessoa implements Serializable{
 			String nome, 
 			String cpf, 
 			Instant dataNascimento, 
-			TipoPessoa tipoPessoa			
+			TipoPessoa tipoPessoa,
+			User user
 			) {
 		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 		this.tipoPessoa = tipoPessoa;
+		this.user = user;
 		
 		
 	}
 
+	public TipoPessoa getTipoPessoa() {
+		return tipoPessoa;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
 	public Integer getIdPessoa() {
 		return idPessoa;
 	}
