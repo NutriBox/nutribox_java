@@ -18,7 +18,7 @@ import br.com.nutribox.nbx.services.PessoaService;
  *
  */
 @Controller
-@RequestMapping(value = "/pessoas")
+@RequestMapping(value = "api/pessoas")
 public class PessoaResource {
 	
 	@Autowired

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.nutribox.nbx.resource;
 
 import java.net.URI;
@@ -21,58 +18,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.com.nutribox.nbx.dto.EspecialidadeDTO;
-import br.com.nutribox.nbx.entity.Especialidade;
-import br.com.nutribox.nbx.services.EspecialidadeService;
+import br.com.nutribox.nbx.dto.SubMenuDTO;
+import br.com.nutribox.nbx.entity.SubMenu;
+import br.com.nutribox.nbx.services.SubMenuService;
 
-/**
- * @author edy
- *
- */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/api/especialidades")
-public class EspecialidadeResource {
-	
-	@Autowired	
-	private EspecialidadeService service;
-	
+@RequestMapping(value = "/api/submenus")
+public class SubMenuResource {
+
+	@Autowired
+	private SubMenuService service;
+
 	@CrossOrigin	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<EspecialidadeDTO>> findAll( ) {		
-		List<Especialidade> list = service.findAll();	
-		List<EspecialidadeDTO> listDTO =
+	public ResponseEntity<List<SubMenuDTO>> findAll( ) {		
+		List<SubMenu> list = service.findAll();	
+		List<SubMenuDTO> listDTO =
 				list.stream()
-				.map(obj -> new EspecialidadeDTO(obj))
+				.map(obj -> new SubMenuDTO(obj))
 				.collect(Collectors.toList());
 	    return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Especialidade> findById(@PathVariable Integer id ) {		
-		Especialidade obj = service.find(id);		
+	public ResponseEntity<SubMenu> findById(@PathVariable Integer id ) {		
+		SubMenu obj = service.find(id);		
 	    return ResponseEntity.ok().body(obj);
 	}
 	
 	@CrossOrigin
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody EspecialidadeDTO objDTO){
-		Especialidade obj = service.fromDTO(objDTO);
+	public ResponseEntity<Void> insert(@Valid @RequestBody SubMenuDTO objDTO){
+		SubMenu obj = service.fromDTO(objDTO);
 		obj =  service.insert(obj);
 		URI uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
 				.path("/{id}")
-				.buildAndExpand(obj.getIdEspecialidade())
+				.buildAndExpand(obj.getIdSubMenu())
 				.toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@CrossOrigin
 	@RequestMapping(value="/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> updade(@Valid @RequestBody EspecialidadeDTO objDTO, @PathVariable Integer id){
-		Especialidade obj = service.fromDTO(objDTO);
-		obj.setIdEspecialidade(id);	
+	public ResponseEntity<Void> updade(@Valid @RequestBody SubMenuDTO objDTO, @PathVariable Integer id){
+		SubMenu obj = service.fromDTO(objDTO);
+		obj.setIdSubMenu(id);	
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
@@ -86,13 +79,14 @@ public class EspecialidadeResource {
 	
 	@CrossOrigin
 	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<EspecialidadeDTO>> findPage(
+	public ResponseEntity<Page<SubMenuDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="idEspecialidade") String orderBy, 
+			@RequestParam(value="orderBy", defaultValue="idSubMenu") String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Especialidade> list = service.obterPorPagina(page, linesPerPage, direction, orderBy);	
-		Page<EspecialidadeDTO> listDto = list.map(obj -> new EspecialidadeDTO(obj));  
+		Page<SubMenu> list = service.obterPorPagina(page, linesPerPage, direction, orderBy);	
+		Page<SubMenuDTO> listDto = list.map(obj -> new SubMenuDTO(obj));  
 		return ResponseEntity.ok().body(listDto);
 	}
+	
 }
