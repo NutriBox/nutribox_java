@@ -13,18 +13,22 @@ import org.springframework.stereotype.Service;
 
 import br.com.nutribox.nbx.entity.Endereco;
 import br.com.nutribox.nbx.entity.Especialidade;
+import br.com.nutribox.nbx.entity.Menu;
 import br.com.nutribox.nbx.entity.Nutricionista;
 import br.com.nutribox.nbx.entity.Pessoa;
 import br.com.nutribox.nbx.entity.Role;
+import br.com.nutribox.nbx.entity.SubMenu;
 import br.com.nutribox.nbx.entity.Telefone;
 import br.com.nutribox.nbx.entity.TipoPessoa;
 import br.com.nutribox.nbx.entity.User;
 import br.com.nutribox.nbx.entity.enums.ERole;
 import br.com.nutribox.nbx.repositories.EnderecoRepository;
 import br.com.nutribox.nbx.repositories.EspecialidadeRespository;
+import br.com.nutribox.nbx.repositories.MenuRepository;
 import br.com.nutribox.nbx.repositories.NutricionistaRepository;
 import br.com.nutribox.nbx.repositories.PessoaRepository;
 import br.com.nutribox.nbx.repositories.RoleRepository;
+import br.com.nutribox.nbx.repositories.SubMenuRepositories;
 import br.com.nutribox.nbx.repositories.TelefoneRepository;
 import br.com.nutribox.nbx.repositories.TipoPessoaRepository;
 import br.com.nutribox.nbx.repositories.UserRepository;
@@ -64,6 +68,12 @@ public class DBService implements CommandLineRunner{
 	@Autowired
 	private EnderecoRepository enderecoRepository;	
 	
+	@Autowired
+	private MenuRepository menuRepository;
+	
+	@Autowired
+	private SubMenuRepositories subMenuRepositories;
+	
 	public void instantiateTestDatabase() {
 		
 		/* Inicia os usuários */
@@ -89,15 +99,29 @@ public class DBService implements CommandLineRunner{
 	 	
 	 	/* Fim dos usuários */
 		
-		TipoPessoa tp1 = new TipoPessoa(null, "Admin");
-		TipoPessoa tp2 = new TipoPessoa(null, "Nutricionista");
-		TipoPessoa tp3 = new TipoPessoa(null, "Cliente");
-		TipoPessoa tp4 = new TipoPessoa(null, "Estudante");
+		 	
+
+		/* menu */
+			 	Menu menuConf = new Menu(null, "Configuracao", "", "fa fa-wrench",true);
+			 	Menu menuAdm = new Menu(null, "Administrativo", "", "fa fa-tachometer", true);
+			 	Menu menuPaciente= new Menu(null, "Paciente", "", "fa fa-user", true);
+			 	Menu menuAgenda = new Menu(null, "Agenda", "", "fa fa-calendar", true);	
+	 			menuRepository.saveAll(Arrays.asList(menuConf, menuAdm, menuPaciente, menuAgenda));
+	    /* Fim menu */
+
+		/* SubMenu */
+			 	SubMenu subMenuEspecialidade = new SubMenu(null, "Especialidade", "/home/especialidade", "fa fa-angellist", true, menuConf);
+			 	SubMenu subMenuDashboard = new SubMenu(null, "Dashboard", "/home/dashboard", "fa fa-angellist", true, menuConf);
+			 	subMenuRepositories.saveAll(Arrays.asList(subMenuDashboard,subMenuEspecialidade));
+		/* fim SubMenu*/
+			 	
+		TipoPessoa tp1 = new TipoPessoa(null, "Pessoa Física");
+		TipoPessoa tp2 = new TipoPessoa(null, "Pessoa Jurídica");
 	 	
 		Pessoa p1 = new Pessoa(null,"Edilberto", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1,u1);		
-		Pessoa p2 = new Pessoa(null,"Edson",     "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u2);
-		Pessoa p3 = new Pessoa(null,"Francisco", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp3,u3);
-		Pessoa p4 = new Pessoa(null,"Ariante",   "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp4,u4);
+		Pessoa p2 = new Pessoa(null,"Edson",     "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1,u2);
+		Pessoa p3 = new Pessoa(null,"Francisco", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u3);
+		Pessoa p4 = new Pessoa(null,"Ariante",   "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u4);
 
 		
 	    Especialidade es1 = new Especialidade(null,"Nutrição clínica");
@@ -139,7 +163,7 @@ public class DBService implements CommandLineRunner{
 						p1
 						) ;
 		
-		tipoPessoaRepository.saveAll(Arrays.asList(tp1,tp2, tp3, tp4));		
+		tipoPessoaRepository.saveAll(Arrays.asList(tp1,tp2));		
 		
 		pessoaRepository.saveAll(Arrays.asList(p1, p2, p3 ,p4));
 		
@@ -150,6 +174,7 @@ public class DBService implements CommandLineRunner{
 		telefoneRepository.saveAll(Arrays.asList(fone1, fone2));
 		
 		enderecoRepository.saveAll(Arrays.asList(end1));
+		
 	}
 
 	@Override

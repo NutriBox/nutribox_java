@@ -7,7 +7,7 @@ public class EmployeeResource {
 
 	 @RequestMapping(value = "/greeting", method = RequestMethod.GET)
 	    public String getEmployees() {
-	        return "Welcome!";
+	        return "Bem vindo!";
 	    }
 	
 }

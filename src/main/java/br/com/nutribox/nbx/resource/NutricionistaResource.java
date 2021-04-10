@@ -11,7 +11,7 @@ import br.com.nutribox.nbx.entity.Nutricionista;
 import br.com.nutribox.nbx.services.NutricionistaService;
 
 @RestController
-@RequestMapping(value = "/nutricionistas")
+@RequestMapping(value = "/api/nutricionistas")
 public class NutricionistaResource {
 	@Autowired
 	private NutricionistaService service;
