@@ -8,8 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.nutribox.nbx.dto.SubMenuDTO;
@@ -33,6 +32,11 @@ public class SubMenuService {
 	public List <SubMenu> findAll() {
         return repo.findAll();
     }
+	
+	public Page<SubMenu> findAllPage(Pageable pageable) {		
+		return repo.findAll(pageable);
+	}
+	
 	
 	public SubMenu insert(SubMenu obj) {
 		obj.setIdSubMenu(null);
@@ -63,10 +67,6 @@ public class SubMenuService {
 		
     }
 	
-	public Page<SubMenu> obterPorPagina(Integer page, Integer linesPerPage, String direction, String orderBy) {
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
-	}	
 	
 	//Metodo auxiliar para converte DTO
 	public SubMenu fromDTO(@Valid SubMenuDTO objDTO) {
@@ -79,5 +79,5 @@ public class SubMenuService {
 				objDTO.getMenu()
 				);
 	}
-	
+
 }

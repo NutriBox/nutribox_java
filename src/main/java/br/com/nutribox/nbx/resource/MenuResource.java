@@ -8,13 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -79,12 +79,8 @@ public class MenuResource {
 	
 	@CrossOrigin
 	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<MenuDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="idMenu") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Menu> list = service.obterPorPagina(page, linesPerPage, direction, orderBy);	
+	public ResponseEntity<Page<MenuDTO>> findPage(Pageable pageable) {
+		Page<Menu> list = service.findAllPage(pageable);	
 		Page<MenuDTO> listDto = list.map(obj -> new MenuDTO(obj));  
 		return ResponseEntity.ok().body(listDto);
 	}

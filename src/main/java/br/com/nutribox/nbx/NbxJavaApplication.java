@@ -9,7 +9,7 @@ public class NbxJavaApplication implements CommandLineRunner {
 	
 	
 	public static void main(String[] args) {
-		SpringApplication.run(NbxJavaApplication.class, args);		
+		SpringApplication.run(NbxJavaApplication.class, args);
 	}
 
 	@Override

@@ -20,9 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.nutribox.nbx.dto.UserDTO;
 import br.com.nutribox.nbx.entity.Role;
 import br.com.nutribox.nbx.entity.User;
-import br.com.nutribox.nbx.entity.enums.ERole;
+import br.com.nutribox.nbx.entity.enums.RoleEnum;
 import br.com.nutribox.nbx.payload.request.LoginRequest;
 import br.com.nutribox.nbx.payload.request.SignupRequest;
 import br.com.nutribox.nbx.payload.response.JwtResponse;
@@ -30,7 +31,6 @@ import br.com.nutribox.nbx.payload.response.MessageResponse;
 import br.com.nutribox.nbx.repositories.RoleRepository;
 import br.com.nutribox.nbx.repositories.UserRepository;
 import br.com.nutribox.nbx.security.JwtUtils;
-import br.com.nutribox.nbx.services.UserDetailsImpl;
 
 
 
@@ -63,7 +63,7 @@ public class AuthController {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
+		UserDTO userDetails = (UserDTO) authentication.getPrincipal();		
 		List<String> roles = userDetails.getAuthorities().stream()
 				.map(item -> item.getAuthority())
 				.collect(Collectors.toList());
@@ -92,32 +92,33 @@ public class AuthController {
 		// Create new user's account
 		User user = new User(signUpRequest.getUsername(), 
 							 signUpRequest.getEmail(),
-							 encoder.encode(signUpRequest.getPassword()));
+							 encoder.encode(signUpRequest.getPassword())
+								);
 
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 
 		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+			Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
 					.orElseThrow(() -> new RuntimeException("Ops: perfil não encontrada."));
 			roles.add(userRole);
 		} else {
 			strRoles.forEach(role -> {
 				switch (role) {
 				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+					Role adminRole = roleRepository.findByName(RoleEnum.ROLE_ADMIN)
 							.orElseThrow(() -> new RuntimeException("Ops: perfil não encontrada."));
 					roles.add(adminRole);
 
 					break;
 				case "mod":
-					Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+					Role modRole = roleRepository.findByName(RoleEnum.ROLE_MODERATOR)
 							.orElseThrow(() -> new RuntimeException("Ops: perfil não encontrada."));
 					roles.add(modRole);
 
 					break;
 				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+					Role userRole = roleRepository.findByName(RoleEnum.ROLE_USER)
 							.orElseThrow(() -> new RuntimeException("Ops: perfil não encontrada."));
 					roles.add(userRole);
 				}

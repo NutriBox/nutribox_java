@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import br.com.nutribox.nbx.security.AuthEntryPointJwt;
 import br.com.nutribox.nbx.security.AuthTokenFilter;
-import br.com.nutribox.nbx.services.UserDetailsServiceImpl;
+import br.com.nutribox.nbx.services.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +27,7 @@ import br.com.nutribox.nbx.services.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserDetailsServiceImpl userDetailsService;
+	UserService userDetailsService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -63,11 +63,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/api/auth/**").permitAll()
 			.antMatchers("/home/**").permitAll()
 			.antMatchers("/users/**").permitAll()
+			.antMatchers("/api/version/**").permitAll()
 			.antMatchers("/api/especialidades/**").permitAll()
 			.antMatchers("/api/menus/**").permitAll()
 			.antMatchers("/api/submenus/**").permitAll()
 			.antMatchers("/api/pessoas/**").permitAll()
 			.antMatchers("/api/nutricionistas/**").permitAll()
+			.antMatchers("/api/agendas/**").permitAll()
 			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

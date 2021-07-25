@@ -1,4 +1,4 @@
-package br.com.nutribox.nbx.services;
+package br.com.nutribox.nbx.dto;
 
 import java.util.Collection;
 import java.util.List;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.com.nutribox.nbx.entity.User;
 
-public class UserDetailsImpl implements UserDetails {
+public class UserDTO implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
 
 	private Collection<? extends GrantedAuthority> authorities;
 
-	public UserDetailsImpl(Long id, String username, String email, String password,
+	public UserDTO(Long id, String username, String email, String password,
 			Collection<? extends GrantedAuthority> authorities) {
 		this.id = id;
 		this.username = username;
@@ -86,7 +86,7 @@ public class UserDetailsImpl implements UserDetails {
 			return true;
 		if (o == null || getClass() != o.getClass())
 			return false;
-		UserDetailsImpl user = (UserDetailsImpl) o;
+		UserDTO user = (UserDTO) o;
 		return Objects.equals(id, user.id);
 	}
 
@@ -95,7 +95,7 @@ public class UserDetailsImpl implements UserDetails {
 				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
 				.collect(Collectors.toList());
 
-		return new UserDetailsImpl(
+		return new UserDTO(
 				user.getId(), 
 				user.getUsername(), 
 				user.getEmail(),
