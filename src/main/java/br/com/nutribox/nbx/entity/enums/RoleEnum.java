@@ -1,6 +1,6 @@
 package br.com.nutribox.nbx.entity.enums;
 
-public enum ERole {
+public enum RoleEnum {
 	ROLE_USER,
     ROLE_MODERATOR,
     ROLE_ADMIN

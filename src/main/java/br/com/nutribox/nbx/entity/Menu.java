@@ -6,6 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,17 +22,21 @@ public class Menu implements Serializable{
 	private String link;
 	private String icone;	
 	private Boolean active;
+	@ManyToOne
+	@JoinColumn(name = "id")
+	private Role role;
 	
-	
+
+
 	public Menu() {}
 	
-	public Menu(Integer idMenu, String descGroup, String link, String icone, Boolean active) {		
+	public Menu(Integer idMenu, String descGroup, String link, String icone, Boolean active, Role role) {		
 		this.idMenu = idMenu;
 		this.descGroup = descGroup;
 		this.link = link;
 		this.icone = icone;	
-		this.active = active;
-	
+		this.active = active;	
+		this.role = role;
 	}
 
 	public Integer getIdMenu() {
@@ -71,11 +78,19 @@ public class Menu implements Serializable{
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
+	
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 	@Override
 	public String toString() {
 		return "Menu [idMenu=" + idMenu + ", descGroup=" + descGroup + ", link=" + link + ", icone=" + icone
-				+ ", active=" + active ;
+				+ ", active=" + active + ", role=" + role + "]";
 	}
 
 	@Override

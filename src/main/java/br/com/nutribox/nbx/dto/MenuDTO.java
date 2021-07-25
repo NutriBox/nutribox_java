@@ -5,6 +5,7 @@ import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 
 import br.com.nutribox.nbx.entity.Menu;
+import br.com.nutribox.nbx.entity.Role;
 
 public class MenuDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -15,6 +16,7 @@ public class MenuDTO implements Serializable {
 	private String link;
 	private String icone;
 	private Boolean active;
+	private Role role;
 	
 	public MenuDTO( Menu obj ) {
 		idMenu = obj.getIdMenu();
@@ -22,6 +24,7 @@ public class MenuDTO implements Serializable {
 		link = obj.getLink();
 		icone = obj.getIcone();
 		active = obj.getActive();
+		role = obj.getRole();
 	}
 	
 	
@@ -29,13 +32,14 @@ public class MenuDTO implements Serializable {
 		super();
 	}
 			
-	public MenuDTO(Integer idMenu, String descGroup, String link, String icone, Boolean active) {
+	public MenuDTO(Integer idMenu, String descGroup, String link, String icone, Boolean active, Role role) {
 		super();
 		this.idMenu = idMenu;
 		this.descGroup = descGroup;
 		this.link = link;
 		this.icone = icone;
 		this.active = active;
+		this.role = role;
 	}
 
 	public Integer getIdMenu() {
@@ -68,9 +72,12 @@ public class MenuDTO implements Serializable {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-
-
-
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
+	}
 	
 	
 }

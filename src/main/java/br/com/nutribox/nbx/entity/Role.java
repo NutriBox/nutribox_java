@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.nutribox.nbx.entity.enums.ERole;
+import br.com.nutribox.nbx.entity.enums.RoleEnum;
 
 @Entity
 @Table(name = "roles")
@@ -20,20 +20,20 @@ public class Role {
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
-	private ERole name;
+	private RoleEnum name;
 	
 
 	public Role() {
 
 	}
 			
-	public Role(Integer id, ERole name) {
+	public Role(Integer id, RoleEnum name) {
 		super();
 		this.id = id;
 		this.name = name;
 	}
 
-	public Role(ERole name) {
+	public Role(RoleEnum name) {
 		this.name = name;
 	}
 
@@ -45,11 +45,11 @@ public class Role {
 		this.id = id;
 	}
 
-	public ERole getName() {
+	public RoleEnum getName() {
 		return name;
 	}
 
-	public void setName(ERole name) {
+	public void setName(RoleEnum name) {
 		this.name = name;
 	}
 }

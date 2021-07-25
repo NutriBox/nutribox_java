@@ -9,11 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.nutribox.nbx.dto.UserDTO;
 import br.com.nutribox.nbx.entity.User;
 import br.com.nutribox.nbx.repositories.UserRepository;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserService implements UserDetailsService {
 	@Autowired
 	UserRepository userRepository;
 
@@ -21,9 +22,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+				.orElseThrow(() -> new UsernameNotFoundException("Usuário " +  username + " não encontrado!"));
 
-		return UserDetailsImpl.build(user);
+		return UserDTO.build(user);
 	}
 
 }

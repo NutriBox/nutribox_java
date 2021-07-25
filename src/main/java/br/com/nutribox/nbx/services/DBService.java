@@ -3,7 +3,7 @@
  */
 package br.com.nutribox.nbx.services;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import br.com.nutribox.nbx.entity.SubMenu;
 import br.com.nutribox.nbx.entity.Telefone;
 import br.com.nutribox.nbx.entity.TipoPessoa;
 import br.com.nutribox.nbx.entity.User;
-import br.com.nutribox.nbx.entity.enums.ERole;
+import br.com.nutribox.nbx.entity.enums.RoleEnum;
 import br.com.nutribox.nbx.repositories.EnderecoRepository;
 import br.com.nutribox.nbx.repositories.EspecialidadeRespository;
 import br.com.nutribox.nbx.repositories.MenuRepository;
@@ -78,11 +78,12 @@ public class DBService implements CommandLineRunner{
 		
 		/* Inicia os usuários */
 		
-				Role r1 = new Role(1, ERole.ROLE_USER);
-				Role r2 = new Role(2, ERole.ROLE_MODERATOR);
-		        Role r3 = new Role(3, ERole.ROLE_ADMIN);
+				Role r1 = new Role(1, RoleEnum.ROLE_USER);
+				Role r2 = new Role(2, RoleEnum.ROLE_MODERATOR);
+		        Role r3 = new Role(3, RoleEnum.ROLE_ADMIN);
 				roleRepository.saveAll(Arrays.asList(r1,r2,r3));
 				
+							
 			 	User u1 = new User("edymlima", "edymlima@gmail.com", encoder.encode("sempre12"));
 			 	User u2 = new User("edsonlima", "edsonlima@gmail.com.br", encoder.encode("sempre12"));
 			 	User u3 = new User("chicolima", "chicolima@gmail.com.br", encoder.encode("sempre12"));
@@ -102,26 +103,28 @@ public class DBService implements CommandLineRunner{
 		 	
 
 		/* menu */
-			 	Menu menuConf = new Menu(null, "Configuracao", "", "fa fa-wrench",true);
-			 	Menu menuAdm = new Menu(null, "Administrativo", "", "fa fa-tachometer", true);
-			 	Menu menuPaciente= new Menu(null, "Paciente", "", "fa fa-user", true);
-			 	Menu menuAgenda = new Menu(null, "Agenda", "", "fa fa-calendar", true);	
+			 	Menu menuConf = new Menu(null, "Configuracao", "", "fa fa-wrench faa-wrench animated-hover",true,r1);
+			 	Menu menuAdm = new Menu(null, "Administrativo", "", "fas fa-tachometer-altng ser", true,r2);
+			 	Menu menuPaciente= new Menu(null, "Paciente", "", "fa fa-user", true,r3);
+			 	Menu menuAgenda = new Menu(null, "Agenda", "", "fa fa-calendar", true,r2);	
 	 			menuRepository.saveAll(Arrays.asList(menuConf, menuAdm, menuPaciente, menuAgenda));
 	    /* Fim menu */
 
 		/* SubMenu */
 			 	SubMenu subMenuEspecialidade = new SubMenu(null, "Especialidade", "/home/especialidade", "fa fa-angellist", true, menuConf);
-			 	SubMenu subMenuDashboard = new SubMenu(null, "Dashboard", "/home/dashboard", "fa fa-angellist", true, menuConf);
-			 	subMenuRepositories.saveAll(Arrays.asList(subMenuDashboard,subMenuEspecialidade));
+			 	SubMenu subMenuDashboard = new SubMenu(null, "Dashboard", "/home/dashboard", "fas fa-cog fa-spin", true, menuConf);
+			 	SubMenu subMenuPessoa = new SubMenu(null, "Pessoa", "/home/pessoa", "fas fa-cog fa-spin", true, menuConf);
+			 	SubMenu subMenuAgenda = new SubMenu(null, "Calendario", "/home/agenda", "fas fa-cog fa-spin", true, menuConf);
+			 	subMenuRepositories.saveAll(Arrays.asList(subMenuDashboard,subMenuEspecialidade,subMenuPessoa,subMenuAgenda));
 		/* fim SubMenu*/
 			 	
 		TipoPessoa tp1 = new TipoPessoa(null, "Pessoa Física");
 		TipoPessoa tp2 = new TipoPessoa(null, "Pessoa Jurídica");
 	 	
-		Pessoa p1 = new Pessoa(null,"Edilberto", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1,u1);		
-		Pessoa p2 = new Pessoa(null,"Edson",     "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp1,u2);
-		Pessoa p3 = new Pessoa(null,"Francisco", "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u3);
-		Pessoa p4 = new Pessoa(null,"Ariante",   "72346914134", Instant.parse("2019-08-03T10:50:17.717Z"),tp2,u4);
+		Pessoa p1 = new Pessoa(null,"Edilberto", "72346914134", LocalDate.parse("2019-12-31"),Short.valueOf((short) '1'),1L);		
+		Pessoa p2 = new Pessoa(null,"Edson",     "72346914134", LocalDate.parse("2019-12-31"),Short.valueOf((short) '1'),1L);
+		Pessoa p3 = new Pessoa(null,"Francisco", "72346914134", LocalDate.parse("2019-12-31"),Short.valueOf((short) '2'),2L);
+		Pessoa p4 = new Pessoa(null,"Ariante",   "72346914134", LocalDate.parse("2019-12-31"),Short.valueOf((short) '2'),1L);
 
 		
 	    Especialidade es1 = new Especialidade(null,"Nutrição clínica");

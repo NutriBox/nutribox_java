@@ -4,23 +4,21 @@
 package br.com.nutribox.nbx.entity;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * @author edy
  *
  */
 @Entity
-public class Pessoa implements Serializable{
+public class Pessoa implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -28,81 +26,89 @@ public class Pessoa implements Serializable{
 	private Integer idPessoa;
 	private String nome;
 	private String cpf;
-	private Instant dataNascimento;
-		
-	@JsonManagedReference
-	@ManyToOne
-	@JoinColumn(name = "id_tipo_pessoa")
-	private TipoPessoa tipoPessoa;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dataNascimento;
 
-	@JsonManagedReference
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+//	@JsonManagedReference
+//	@ManyToOne
+//	@JoinColumn(name = "id_tipo_pessoa")
+//	private TipoPessoa tipoPessoa;
+
+//	@JsonManagedReference
+//	@ManyToOne
+//	@JoinColumn(name = "user_id")
+//	private User user;
+
+	private Short id_tipo_pessoa;
+	private Long  user_id;
 
 	public Pessoa() {
-		
-	}
-	
 
-	public Pessoa(
-			
-			Integer idPessoa, 
-			String nome, 
-			String cpf, 
-			Instant dataNascimento, 
-			TipoPessoa tipoPessoa,
-			User user
-			) {
+	}
+
+	public Pessoa(Integer idPessoa, String nome, String cpf, LocalDate dataNascimento, Short tipoPessoa) {
+		super();
 		this.idPessoa = idPessoa;
 		this.nome = nome;
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
-		this.tipoPessoa = tipoPessoa;
-		this.user = user;
-		
-		
+		this.id_tipo_pessoa = tipoPessoa;
+
 	}
 
-	public TipoPessoa getTipoPessoa() {
-		return tipoPessoa;
+	public Pessoa(Integer idPessoa, String nome, String cpf, LocalDate dataNascimento, Short id_tipo_pessoa, Long user) {
+		this.idPessoa = idPessoa;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.dataNascimento = dataNascimento;
+		this.id_tipo_pessoa = id_tipo_pessoa;
+		this.user_id = user;
+
 	}
-	
-	public User getUser() {
-		return user;
+
+	public Short getIdTipoPessoa() {
+		return id_tipo_pessoa;
 	}
-	
+
 	public Integer getIdPessoa() {
 		return idPessoa;
 	}
-	
+
 	public void setIdPessoa(Integer idPessoa) {
 		this.idPessoa = idPessoa;
 	}
-	
+
 	public String getNome() {
 		return nome;
 	}
-	
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
+
 	public String getCpf() {
 		return cpf;
 	}
+
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
-	public Instant getDataNascimento() {
+
+	public LocalDate getDataNascimento() {
 		return dataNascimento;
 	}
-	
-	public void setDataNascimento(Instant dataNascimento) {
+
+	public void setDataNascimento(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-	
+
+	public Long getUserId() {
+		return user_id;
+	}
+
+	public void setUser(Long user_id) {
+		this.user_id = user_id;
+	}
 
 	@Override
 	public int hashCode() {
@@ -111,7 +117,6 @@ public class Pessoa implements Serializable{
 		result = prime * result + ((idPessoa == null) ? 0 : idPessoa.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -130,11 +135,4 @@ public class Pessoa implements Serializable{
 		return true;
 	}
 
-	
-
-	
-
-
-	
-	
 }
